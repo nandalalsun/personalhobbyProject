@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 const ArtistInfo = new Schema({
     artist_name: {
-        type: String,
-        required: true
+        type: String
     },
     bio: {
         type: String
@@ -23,9 +22,10 @@ const Music_info = new Schema({
     description: {
         type: String
     },
-    artist: {
-        type: ArtistInfo
-    }
+    music_length: {
+        type: Number,
+        mix: 10
+    },
 });
 
 const MusicSchema = new Schema({
@@ -37,10 +37,10 @@ const MusicSchema = new Schema({
     music_type: {
         type: String,
     },
-    music_length: {
-        type: Number,
-        mix: 10
+    artist: {
+        type: [ArtistInfo]
     }
+
 });
 
 

@@ -12,7 +12,7 @@ const ifValidLength = (music_length) => {
 }
 
 const addOne = function(req, res){
-    if(!(req.body.music_info.music_name || req.body.music_name)){
+    if(!req.body.music_name){
         console.log("Invalid music");
         res.status(400).json("Music name must be provided");
     }
@@ -21,8 +21,8 @@ const addOne = function(req, res){
         let error = false;
         let error_message = {}
 
-        let music_name = req.body.music_name ? req.body.music_name : req.body.music_info.music_name;
-        let description = req.body.description ? req.body.description : req.body.music_info.description ? req.body.music_info.description : "No description";
+        let music_name = req.body.music_name;
+        let description = req.body.description ? req.body.description : "No description";
         let music_type = req.body.music_type ? req.body.music_type : "Unknown";
 
         let music_length = 0;
@@ -59,16 +59,16 @@ const addOne = function(req, res){
         let music_info = {
             music_name,
             description,
-            artist_info
+            music_length
         }
         
-        console.log({music_info: music_info, music_type: music_type, music_length: music_length});
+        console.log({music_info: music_info, music_type: music_type, artist: artist_info});
 
         if(error){
             res.status(400).json(error_message);
         }
         else{
-            Music.create({music_info: music_info, music_type: music_type, music_length: music_length}, (err, data)=>{
+            Music.create({music_info: music_info, music_type: music_type, artist: artist_info}, (err, data)=>{
                 if(err){
                     console.log(err);
                     res.status(500).json({message: err});
@@ -175,6 +175,32 @@ const getAll = function(req, res){
     }
 }
 const updateOne = (req, res)=>{
+    const musicId = req.params.musicId;
+    if(!(mongoose.isValidObjectId(musicId))){
+        res.status(400).json({Error: "MusicId is not a valid id"});
+    }
+    else{
+        let new_music = {};
+
+        if(req.body.music_name){
+            new_music.music_name = req.body.music_name;
+        }
+        if(req.body.music_type){
+            new_music.music_type = req.body.music_type;
+        }
+        if(req.body.description){
+            new_music.description = req.body.description;
+        }
+        if(req.body.music)
+        Music.findById({_id: musicId}, (err, music)=>{
+           if(!err){
+            updateMusic(err, music, req, res);
+           }
+        });
+    }
+}
+
+const updateMusic = (err, music, req, res)=>{
 
 }
 
