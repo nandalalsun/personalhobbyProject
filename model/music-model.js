@@ -2,8 +2,21 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const ArtistInfo = new Schema({
+    artist_name: {
+        type: String,
+        required: true
+    },
+    bio: {
+        type: String
+    },
+    age: {
+        type: Number
+    }
+});
+
 const Music_info = new Schema({
-    name: {
+    music_name: {
         type: String,
         required: true
     },
@@ -11,8 +24,7 @@ const Music_info = new Schema({
         type: String
     },
     artist: {
-        type: ArtistInfo,
-        default: "Unknown"
+        type: ArtistInfo
     }
 });
 
@@ -31,20 +43,13 @@ const MusicSchema = new Schema({
     }
 });
 
-const ArtistInfo = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    bio: {
-        type: String
-    },
-    age: {
-        type: Number
-    }
-});
 
-module.exports = mongoose.model("Artist", ArtistInfo, "artist");
 
-module.exports = mongoose.model("Music", MusicSchema, "music");
+// module.exports.Artist = 
 
+// module.exports = 
+
+module.exports = {
+    Music: mongoose.model("Music", MusicSchema, "music"),
+    Artist: mongoose.model("Artist", ArtistInfo, "artist")
+}
