@@ -10,6 +10,16 @@ mongoose.connection.
         console.log("Failed: " + err);
     });
 
+mongoose.connection.on("disconnected", ()=>{
+    console.log(process.env.DB_NAME + " has disconnected to " + process.env.DB_URL);
+});
 
+const closeDatabase = function(){
+    mongoose.connection.close(()=>{
+        console.log("The database "+ process.env.DB_NAME +" has disconnected through the app termination");
+        process.exit(0);
+    });
+}
 
+process.on('SIGINT', closeDatabase).on('SIGTERM', closeDatabase);
 

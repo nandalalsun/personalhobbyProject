@@ -26,5 +26,5 @@
  
  
  const server = app.listen(port, (req, res)=>{
-     console.log(process.env.PORT_LISTENING_MSG + " " + server.address().port);
+     console.log(process.env.PORT_LISTENING_MSG + " " + server.address().port + ` http://localhost:${server.address().port}/api/`);
  });
