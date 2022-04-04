@@ -180,21 +180,39 @@ const updateOne = (req, res)=>{
         res.status(400).json({Error: "MusicId is not a valid id"});
     }
     else{
-        let new_music = {};
-
-        if(req.body.music_name){
-            new_music.music_name = req.body.music_name;
-        }
-        if(req.body.music_type){
-            new_music.music_type = req.body.music_type;
-        }
-        if(req.body.description){
-            new_music.description = req.body.description;
-        }
-        if(req.body.music)
         Music.findById({_id: musicId}, (err, music)=>{
-           if(!err){
-            updateMusic(err, music, req, res);
+           if(err){
+            res.status(404).json(err);
+           }
+           else{
+               let music_name = req.body.music_name ? req.body.music_name : music.music_name.music_info.music_name;
+               let description = req.body.description ? req.body.description : music.music_info.description;
+               let musi_lengthc = req.body.musi_lengthc ? req.body.music_length : music.music_info.music_length;
+               let music_type = req.body.music_type ? req.body.music_type : music.music_type;
+               let artist_name = req.body.artist_name ? req.body.artist_name : music.artist.artist_name;
+               let bio = req.body.bio ? req.body.bio : music.artist.bio;
+               let age = req.body.age ? req.body.age : music.artist.age;
+
+
+               let music_info = {
+                   music_name,
+                   description,
+                   musi_lengthc
+               }
+               let artist = {
+                   artist_name,
+                   bio,
+                   age
+               }
+
+               Music.updateOne({_id: musicId}, {$set: {music_info: music_info, music_type: music_type, artist: artist}}).exec((err, music)=>{
+                   if(!err){
+                        res.status(200).json(music);
+                   }
+                   else{
+                       res.status(400).json(err);
+                   }
+               });
            }
         });
     }
