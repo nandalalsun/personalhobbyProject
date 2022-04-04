@@ -13,7 +13,7 @@ router.route("/music/:musicId/artist/:artistId")
   .delete(artistController.deleteOne)
   .patch(artistController.updateOne);
 
-router.route("/music/:musicId/artist/")
+router.route("/music/:musicId/artist")
   .get(artistController.getAll)
   .post(artistController.addOne);
 

@@ -218,10 +218,6 @@ const updateOne = (req, res)=>{
     }
 }
 
-const updateMusic = (err, music, req, res)=>{
-
-}
-
 module.exports = {
     addOne,
     deleteOne,
